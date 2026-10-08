@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/cn'
+import LogoIcon from '@/assets/logo.webp'
 
 type LogoProps = {
   to?: string
@@ -43,10 +44,7 @@ export function Logo({ to, tone = 'dark', className, showTagline = false }: Logo
 
   const content = (
     <span className={cn('flex items-center gap-2.5', className)}>
-      <LogoMark
-        tone={tone}
-        className="h-9 w-9 transition-transform duration-300 group-hover:scale-105"
-      />
+      <img src={LogoIcon} className="h-16"/>
       <span className="flex flex-col leading-none">
         <span
           className={cn(
