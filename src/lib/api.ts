@@ -88,16 +88,58 @@ export function accountTypeLabel(type: AccountType): string {
   return accountTypeLabels[type]
 }
 
-export async function authenticate(payload: SessionPayload): Promise<Session> {
-  await wait(850)
+type LoginApiResponse = {
+  message?: string
+  data?: {
+    usuario?: {
+      name: string
+      email: string
+      role?: {
+        value: AccountType
+      }
+    }
+    tokens?: {
+      access_token: string
+    }
+  }
+}
 
-  const name = payload.name?.trim() || payload.email.split('@')[0]
+export async function authenticate(payload: SessionPayload): Promise<Session> {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: payload.email,
+      password: payload.password,
+    }),
+  })
+
+  const result = (await response.json()) as LoginApiResponse
+
+  if (!response.ok) {
+    throw new Error(result.message ?? 'No se pudo iniciar sesión.')
+  }
+
+  const token = result.data?.tokens?.access_token
+  const user = result.data?.usuario
+
+  if (!token || !user) {
+    throw new Error('La respuesta de inicio de sesión no es válida.')
+  }
+
+  localStorage.setItem('token', token)
+  localStorage.setItem('user', JSON.stringify(user))
+
+  const name = user.name.trim() || payload.email.split('@')[0]
 
   return {
-    token: `demo_${Math.random().toString(36).slice(2, 12)}`,
+    token,
     name,
-    email: payload.email,
-    accountType: payload.accountType,
+    email: user.email,
+    accountType: user.role?.value ?? payload.accountType,
     greeting: `Hola, ${name}`,
   }
 }
