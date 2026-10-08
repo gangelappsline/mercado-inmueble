@@ -1,0 +1,142 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Tokens de marca — Mercado Inmueble
+   Naranja #F95123 · Azul profundo #080960
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans:
+    'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+
+  --color-brand-50: #fef4f0;
+  --color-brand-100: #fde5dd;
+  --color-brand-200: #fbc8b8;
+  --color-brand-300: #f8a288;
+  --color-brand-400: #f67955;
+  --color-brand-500: #f95123;
+  --color-brand-600: #e13c10;
+  --color-brand-700: #ba2d0c;
+  --color-brand-800: #91240b;
+  --color-brand-900: #6d1c09;
+  --color-brand-950: #3d0e04;
+
+  --color-navy-50: #eff1fc;
+  --color-navy-100: #dde1f9;
+  --color-navy-200: #b8c0f1;
+  --color-navy-300: #8b96e6;
+  --color-navy-400: #5c69d6;
+  --color-navy-500: #3542bc;
+  --color-navy-600: #212fa0;
+  --color-navy-700: #141f85;
+  --color-navy-800: #0c1469;
+  --color-navy-900: #080960;
+  --color-navy-950: #040435;
+
+  --shadow-soft: 0 26px 60px -28px rgb(8 9 96 / 0.35);
+  --shadow-card: 0 18px 44px -24px rgb(8 9 96 / 0.28);
+  --shadow-brand: 0 18px 38px -18px rgb(249 81 35 / 0.55);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 10s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-white);
+    color: var(--color-navy-950);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-500);
+    color: var(--color-white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilidades propias
+--------------------------------------------------------------------------- */
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 84rem;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(currentColor 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility text-gradient-brand {
+  background-image: linear-gradient(100deg, var(--color-brand-500), var(--color-brand-400) 55%, var(--color-navy-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

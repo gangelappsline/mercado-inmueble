@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Mercado Inmueble">
+  <rect width="64" height="64" rx="15" fill="#080960" />
+  <path d="M32 11.5 57 35.2h-8.4L32 20.1 15.4 35.2H7L32 11.5Z" fill="#F95123" />
+  <path d="M15.8 35.2h32.4V52a1.8 1.8 0 0 1-1.8 1.8H17.6a1.8 1.8 0 0 1-1.8-1.8V35.2Z" fill="#FFFFFF" />
+  <path d="M27.6 41.4h8.8v12.4h-8.8V41.4Z" fill="#080960" />
+  <circle cx="46" cy="18" r="4.6" fill="#F95123" />
+</svg>
