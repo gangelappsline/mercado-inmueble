@@ -61,7 +61,7 @@ export async function createLead(payload: LeadPayload): Promise<LeadReceipt> {
   }
 }
 
-export type AccountType = LeadProfile
+export type AccountType = LeadProfile | 'administrador'
 
 export type SessionPayload = {
   email: string
@@ -82,6 +82,7 @@ const accountTypeLabels: Record<AccountType, string> = {
   cliente: 'Cliente',
   vendedor: 'Vendedor independiente',
   inmobiliaria: 'Inmobiliaria',
+  administrador: 'Administrador',
 }
 
 export function accountTypeLabel(type: AccountType): string {
@@ -130,8 +131,15 @@ export async function authenticate(payload: SessionPayload): Promise<Session> {
     throw new Error('La respuesta de inicio de sesión no es válida.')
   }
 
+  // El rol define a qué panel se envía al usuario; si la API no lo devuelve,
+  // se usa el tipo de cuenta seleccionado en el formulario.
+  const accountType = user.role?.value ?? payload.accountType
+
   localStorage.setItem('token', token)
-  localStorage.setItem('user', JSON.stringify(user))
+  localStorage.setItem(
+    'user',
+    JSON.stringify({ name: user.name, email: user.email, role: { value: accountType } }),
+  )
 
   const name = user.name.trim() || payload.email.split('@')[0]
 
@@ -139,7 +147,7 @@ export async function authenticate(payload: SessionPayload): Promise<Session> {
     token,
     name,
     email: user.email,
-    accountType: user.role?.value ?? payload.accountType,
+    accountType,
     greeting: `Hola, ${name}`,
   }
 }
